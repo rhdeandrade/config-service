@@ -3,7 +3,9 @@ buildscript {
         springBootVersion = '2.1.1.RELEASE'
     }
     repositories {
-        mavenCentral()
+        mavenLocal()
+        maven { url "https://artifacts.mastercard.int/artifactory/maven-all" }
+        maven { url "https://artifacts.mastercard.int/artifactory/snapshots-all" }
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
@@ -20,8 +22,9 @@ version = '0.0.1-SNAPSHOT'
 sourceCompatibility = 1.8
 
 repositories {
-    mavenCentral()
-    maven { url "https://repo.spring.io/milestone" }
+    mavenLocal()
+    maven { url "https://artifacts.mastercard.int/artifactory/maven-all" }
+    maven { url "https://artifacts.mastercard.int/artifactory/snapshots-all" }
 }
 
 ext['springCloudVersion'] = 'Greenwich.RC1'
@@ -35,4 +38,9 @@ dependencyManagement {
     imports {
         mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
     }
+}
+
+bootRun {
+    systemProperties['environment'] = 'prod'
+    systemProperties['server.port'] = '8888'
 }
